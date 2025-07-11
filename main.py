@@ -7,7 +7,9 @@ from commands.ticket_remove import setup as setup_ticket_remove
 from commands.ticket_panel import setup as setup_ticket_panel
 from commands.ticket_claim import setup as setup_ticket_claim
 from commands.patience import setup as setup_patience
+from commands.reaction_panel import setup as setup_reaction_panel
 from commands.ticket_panel import TicketPanelView
+from utils.reaction_panel import ReactionRoleView
 import asyncio
 
 intents = discord.Intents.default()
@@ -21,10 +23,12 @@ async def on_ready():
     print(f'{bot.user} has connected to Discord!')
     print(f'Bot is ready in {len(bot.guilds)} guilds')
     bot.add_view(TicketPanelView())
+    bot.add_view(ReactionRoleView())
     await bot.change_presence(activity=discord.CustomActivity(name="Indexing tickets"))
     await asyncio.sleep(5)
     await bot.change_presence(activity=discord.CustomActivity(name="Answering your tickets"))
     print('Persistent ticket panel view loaded!')
+    print('Persistent reaction role view loaded!')
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -50,6 +54,7 @@ setup_ticket_remove(bot)
 setup_ticket_panel(bot)
 setup_ticket_claim(bot)
 setup_patience(bot)
+setup_reaction_panel(bot)
 
 if __name__ == "__main__":
     bot.run(config.DISCORD_TOKEN)
