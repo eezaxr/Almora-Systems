@@ -15,7 +15,7 @@ def setup(bot):
                 description="You don't have permission to use this command!",
                 color=0xFFFFFF
             )
-            embed.set_image(url="https://media.discordapp.net/attachments/1301667213131907170/1393267567925137478/Banner2.png?ex=68728d09&is=68713b89&hm=3848c521166c97401f3eaac93d3ed9b0901279cab8ae433b4a7a48600d1a000e&=&format=webp&quality=lossless&width=1318&height=63")
+            embed.set_image(url="https://media.discordapp.net/attachments/1393317286248448200/1393317450367369277/image.png?ex=6872bb7e&is=687169fe&hm=679a83259dbb1029cd71ad93e4b74d7979a48365ec7969cebeacfd9905a1d3b4&=&format=webp&quality=lossless")
             await ctx.send(embed=embed)
             return
 
@@ -29,7 +29,7 @@ def setup(bot):
             value="<:ArrowRight:1393269964907090014>Abusing the system will result into being moderated.\n<:ArrowRight:1393269964907090014>Please allow 24-48 hours for our team to process your enquiry.\n<:ArrowRight:1393269964907090014>Failure to respond to the ticket after a certain time will result in closure.",
             inline=False
         )
-        embed.set_image(url="https://media.discordapp.net/attachments/1301667213131907170/1393267553077301298/Banner1.png?ex=68728d06&is=68713b86&hm=faae5dcd1923d5285ef234b09e47fafd84793088bfac7bc364cbc536032e1901&=&format=webp&quality=lossless&width=1318&height=326")
+        embed.set_image(url="https://media.discordapp.net/attachments/1393317286248448200/1393317450367369277/image.png?ex=6872bb7e&is=687169fe&hm=679a83259dbb1029cd71ad93e4b74d7979a48365ec7969cebeacfd9905a1d3b4&=&format=webp&quality=lossless")
         
         view = TicketPanelView()
         await ctx.send(embed=embed, view=view)
@@ -53,9 +53,9 @@ class TicketPanelView(discord.ui.View):
             embed = discord.Embed(
                 title="<:Warning:1393269985031487528> Ticket Already Exists",
                 description=f"You already have an open ticket: {existing_ticket.mention}",
-                color=0x5C3BB9
+                color=0xFFFFFF
             )
-            embed.set_image(url="https://media.discordapp.net/attachments/1301667213131907170/1393267567925137478/Banner2.png?ex=68728d09&is=68713b89&hm=3848c521166c97401f3eaac93d3ed9b0901279cab8ae433b4a7a48600d1a000e&=&format=webp&quality=lossless&width=1318&height=63")
+            embed.set_image(url="https://media.discordapp.net/attachments/1393317286248448200/1393317450367369277/image.png?ex=6872bb7e&is=687169fe&hm=679a83259dbb1029cd71ad93e4b74d7979a48365ec7969cebeacfd9905a1d3b4&=&format=webp&quality=lossless")
             await interaction.response.send_message(embed=embed, ephemeral=True)
             return
 
@@ -83,7 +83,7 @@ class TicketReasonModal(discord.ui.Modal, title='Create Support Ticket'):
             success_embed = discord.Embed(
                 title="<:Tick:1393269945500045473> Ticket Created Successfully",
                 description=f"Your ticket has been created: {ticket_channel.mention}",
-                color=0x5C3BB9
+                color=0xFFFFFF
             )
 
             await interaction.response.send_message(embed=success_embed, ephemeral=True)
@@ -96,17 +96,16 @@ class TicketReasonModal(discord.ui.Modal, title='Create Support Ticket'):
             embed = discord.Embed(
                 title="<:Team:1393269975753691276> Support Ticket",
                 description=f"**Created by:** {interaction.user.mention}\n**Reason:** {self.reason.value}\n\nA staff member will be with you shortly.",
-                color=0x5C3BB9
+                color=0xFFFFFF
             )
-            embed.set_footer(text="Use !close to close this ticket")
-
-            embed.set_image(url="https://media.discordapp.net/attachments/1301667213131907170/1393267567925137478/Banner2.png?ex=68728d09&is=68713b89&hm=3848c521166c97401f3eaac93d3ed9b0901279cab8ae433b4a7a48600d1a000e&=&format=webp&quality=lossless&width=1318&height=63")
+            
+            embed.set_image(url="https://media.discordapp.net/attachments/1393317286248448200/1393317450367369277/image.png?ex=6872bb7e&is=687169fe&hm=679a83259dbb1029cd71ad93e4b74d7979a48365ec7969cebeacfd9905a1d3b4&=&format=webp&quality=lossless")
             await ticket_channel.send(embed=embed)
         else:
             
             error_embed = discord.Embed(
                 title="<:Cross:1393269948700426341> Ticket Creation Failed",
                 description="Failed to create ticket. Please contact the Network Administrator.",
-                color=0x5C3BB9
+                color=0xFFFFFF
             )
             await interaction.response.send_message(embed=error_embed, ephemeral=True)
