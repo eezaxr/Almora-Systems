@@ -9,13 +9,15 @@ from commands.ticket_claim import setup as setup_ticket_claim
 from commands.patience import setup as setup_patience
 from commands.reaction_panel import setup as setup_reaction_panel
 from commands.ticket_panel import TicketPanelView
-from utils.reaction_panel import ReactionRoleView
+from utils.reaction_panel import GeneralRolesView, PronounsRolesView
+from utils.invite_utils import setup_invite_tracking, handle_member_join, cache_invites_for_guild, setup_invite_commands
 import asyncio
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.guilds = True
 intents.members = True
+intents.invites = True  # Required for invite tracking
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
@@ -23,12 +25,26 @@ async def on_ready():
     print(f'{bot.user} has connected to Discord!')
     print(f'Bot is ready in {len(bot.guilds)} guilds')
     bot.add_view(TicketPanelView())
-    bot.add_view(ReactionRoleView())
+    bot.add_view(GeneralRolesView())
+    bot.add_view(PronounsRolesView())
     await bot.change_presence(activity=discord.CustomActivity(name="Indexing tickets"))
     await asyncio.sleep(5)
     await bot.change_presence(activity=discord.CustomActivity(name="Answering your tickets"))
     print('Persistent ticket panel view loaded!')
     print('Persistent reaction role view loaded!')
+    
+    # Cache invites for all guilds
+    for guild in bot.guilds:
+        await cache_invites_for_guild(guild)
+    print('Invite tracking initialized!')
+
+@bot.event
+async def on_member_join(member):
+    """Handle member join - includes invite tracking"""
+    # Your existing member join logic can go here
+    
+    # Handle invite tracking
+    await handle_member_join(member)
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -48,6 +64,7 @@ async def say(ctx, *, message: str):
         return
     await ctx.send(message)
 
+# Setup all commands and features
 setup_ticket_close(bot)
 setup_ticket_add(bot)
 setup_ticket_remove(bot)
@@ -55,6 +72,10 @@ setup_ticket_panel(bot)
 setup_ticket_claim(bot)
 setup_patience(bot)
 setup_reaction_panel(bot)
+
+# Setup invite tracking
+setup_invite_tracking(bot)
+setup_invite_commands(bot)
 
 if __name__ == "__main__":
     bot.run(config.DISCORD_TOKEN)
