@@ -114,7 +114,7 @@ class ReactionRoleButton(discord.ui.Button):
             # Remove role
             await member.remove_roles(role)
             embed = discord.Embed(
-                title="<:Cross:1393269948700426341> woah Role Removed",
+                title="<:Cross:1393269948700426341> Role Removed",
                 description=f"The **{role.name}** role has been removed from you.",
                 color=0xFFFFFF
             )
