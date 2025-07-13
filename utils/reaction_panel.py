@@ -116,15 +116,15 @@ class ReactionRoleButton(discord.ui.Button):
             embed = discord.Embed(
                 title="<:Cross:1393269948700426341> Role Removed",
                 description=f"The **{role.name}** role has been removed from you.",
-                color=0xFF0000
+                color=0xFFFFFF
             )
         else:
             # Add role
             await member.add_roles(role)
             embed = discord.Embed(
-                title="<:Checkmark:1393269948700426340> Role Added",
+                title="<:Tick:1393269945500045473> Role Added",
                 description=f"You have been given the **{role.name}** role!",
-                color=0x00FF00
+                color=0xFFFFFF
             )
         
         await interaction.response.send_message(embed=embed, ephemeral=True)
