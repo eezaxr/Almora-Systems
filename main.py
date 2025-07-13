@@ -8,6 +8,12 @@ from commands.ticket_panel import setup as setup_ticket_panel
 from commands.ticket_claim import setup as setup_ticket_claim
 from commands.patience import setup as setup_patience
 from commands.reaction_panel import setup as setup_reaction_panel
+from commands.shift_start import setup as setup_shift_start
+from commands.shift_cancel import setup as setup_shift_cancel
+from commands.shift_end import setup as setup_shift_end
+from commands.training_start import setup as setup_training_start
+from commands.training_cancel import setup as setup_training_cancel
+from commands.training_end import setup as setup_training_end
 from commands.ticket_panel import TicketPanelView
 from utils.reaction_panel import GeneralRolesView, PronounsRolesView
 from utils.invite_utils import setup_invite_tracking, handle_member_join, cache_invites_for_guild, setup_invite_commands
@@ -18,18 +24,24 @@ intents.message_content = True
 intents.guilds = True
 intents.members = True
 intents.invites = True  # Required for invite tracking
+
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
     print(f'Bot is ready in {len(bot.guilds)} guilds')
+    
+    # Add persistent views
     bot.add_view(TicketPanelView())
     bot.add_view(GeneralRolesView())
     bot.add_view(PronounsRolesView())
+    
+    # Update presence
     await bot.change_presence(activity=discord.CustomActivity(name="Indexing tickets"))
     await asyncio.sleep(5)
     await bot.change_presence(activity=discord.CustomActivity(name="Answering your tickets"))
+    
     print('Persistent ticket panel view loaded!')
     print('Persistent reaction role view loaded!')
     
@@ -37,6 +49,14 @@ async def on_ready():
     for guild in bot.guilds:
         await cache_invites_for_guild(guild)
     print('Invite tracking initialized!')
+    
+    # Sync slash commands - this reloads/updates all slash commands
+    try:
+        print("Syncing slash commands...")
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} slash commands")
+    except Exception as e:
+        print(f"Failed to sync slash commands: {e}")
 
 @bot.event
 async def on_member_join(member):
@@ -72,6 +92,14 @@ setup_ticket_panel(bot)
 setup_ticket_claim(bot)
 setup_patience(bot)
 setup_reaction_panel(bot)
+setup_shift_start(bot)
+setup_shift_cancel(bot)
+setup_shift_end(bot)
+
+# Setup training commands - now separate commands
+setup_training_start(bot)
+setup_training_cancel(bot)
+setup_training_end(bot)
 
 # Setup invite tracking
 setup_invite_tracking(bot)
