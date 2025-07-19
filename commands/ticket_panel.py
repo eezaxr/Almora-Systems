@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import config
 from utils.ticket_utils import create_ticket_channel
+# Import the blacklist function
+from commands.ticket_blacklist import is_user_blacklisted
 
 def setup(bot):
 
@@ -46,6 +48,17 @@ class TicketPanelView(discord.ui.View):
     )
     async def create_ticket_button(self, interaction: discord.Interaction, button: discord.ui.Button):
 
+        # Check if user is blacklisted
+        if is_user_blacklisted(interaction.user.id, interaction.guild.id):
+            embed = discord.Embed(
+                title="<:Cross:1393269948700426341> Access Denied",
+                description="You have been blacklisted from creating tickets. Please contact a staff member if you believe this is an error.",
+                color=0xFFFFFF
+            )
+            embed.set_image(url="https://media.discordapp.net/attachments/1393317286248448200/1393317450367369277/image.png?ex=6872bb7e&is=687169fe&hm=679a83259dbb1029cd71ad93e4b74d7979a48365ec7969cebeacfd9905a1d3b4&=&format=webp&quality=lossless")
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            return
+
         guild = interaction.guild
         existing_ticket = discord.utils.get(guild.channels, name=f"ticket-{interaction.user.name.lower()}")
 
@@ -75,6 +88,17 @@ class TicketReasonModal(discord.ui.Modal, title='Create Support Ticket'):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
+
+        # Double-check blacklist status (in case it changed between button click and modal submit)
+        if is_user_blacklisted(interaction.user.id, interaction.guild.id):
+            embed = discord.Embed(
+                title="<:Cross:1393269948700426341> Access Denied",
+                description="You have been blacklisted from creating tickets. Please contact a staff member if you believe this is an error.",
+                color=0xFFFFFF
+            )
+            embed.set_image(url="https://media.discordapp.net/attachments/1393317286248448200/1393317450367369277/image.png?ex=6872bb7e&is=687169fe&hm=679a83259dbb1029cd71ad93e4b74d7979a48365ec7969cebeacfd9905a1d3b4&=&format=webp&quality=lossless")
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            return
 
         ticket_channel = await create_ticket_channel(interaction.guild, interaction.user, self.reason.value)
 
