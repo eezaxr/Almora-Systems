@@ -1,21 +1,31 @@
 import discord
 from discord.ext import commands
 import config
-from commands.ticket_close import setup as setup_ticket_close
-from commands.ticket_add import setup as setup_ticket_add
-from commands.ticket_remove import setup as setup_ticket_remove
-from commands.ticket_panel import setup as setup_ticket_panel
-from commands.ticket_claim import setup as setup_ticket_claim
-from commands.ticket_blacklist import setup as setup_ticket_blacklist  # Add this import
-from commands.patience import setup as setup_patience
-from commands.reaction_panel import setup as setup_reaction_panel
-from commands.shift_start import setup as setup_shift_start
-from commands.shift_cancel import setup as setup_shift_cancel
-from commands.shift_end import setup as setup_shift_end
-from commands.training_start import setup as setup_training_start
-from commands.training_cancel import setup as setup_training_cancel
-from commands.training_end import setup as setup_training_end
-from commands.ticket_panel import TicketPanelView
+
+# Ticket commands imports
+from commands.ticket_commands.ticket_close import setup as setup_ticket_close
+from commands.ticket_commands.ticket_add import setup as setup_ticket_add
+from commands.ticket_commands.ticket_remove import setup as setup_ticket_remove
+from commands.ticket_commands.ticket_panel import setup as setup_ticket_panel
+from commands.ticket_commands.ticket_claim import setup as setup_ticket_claim
+from commands.ticket_commands.ticket_blacklist import setup as setup_ticket_blacklist
+from commands.ticket_commands.patience import setup as setup_patience
+
+# Shift commands imports
+from commands.shift_commands.shift_start import setup as setup_shift_start
+from commands.shift_commands.shift_cancel import setup as setup_shift_cancel
+from commands.shift_commands.shift_end import setup as setup_shift_end
+
+# Training commands imports
+from commands.training_commands.training_start import setup as setup_training_start
+from commands.training_commands.training_cancel import setup as setup_training_cancel
+from commands.training_commands.training_end import setup as setup_training_end
+
+# Reaction commands imports
+from commands.reaction_commands.reaction_panel import setup as setup_reaction_panel
+
+# Import views and utilities
+from commands.ticket_commands.ticket_panel import TicketPanelView
 from utils.reaction_panel import GeneralRolesView, PronounsRolesView
 from utils.invite_utils import setup_invite_tracking, handle_member_join, cache_invites_for_guild, setup_invite_commands
 import asyncio
@@ -85,23 +95,27 @@ async def say(ctx, *, message: str):
         return
     await ctx.send(message)
 
-# Setup all commands and features
+# Setup ticket commands
 setup_ticket_close(bot)
 setup_ticket_add(bot)
 setup_ticket_remove(bot)
 setup_ticket_panel(bot)
 setup_ticket_claim(bot)
-setup_ticket_blacklist(bot)  # Add this line
+setup_ticket_blacklist(bot)
 setup_patience(bot)
-setup_reaction_panel(bot)
+
+# Setup shift commands
 setup_shift_start(bot)
 setup_shift_cancel(bot)
 setup_shift_end(bot)
 
-# Setup training commands - now separate commands
+# Setup training commands
 setup_training_start(bot)
 setup_training_cancel(bot)
 setup_training_end(bot)
+
+# Setup reaction commands
+setup_reaction_panel(bot)
 
 # Setup invite tracking
 setup_invite_tracking(bot)
