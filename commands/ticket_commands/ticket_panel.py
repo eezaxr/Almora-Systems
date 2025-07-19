@@ -3,7 +3,7 @@ from discord.ext import commands
 import config
 from utils.ticket_utils import create_ticket_channel
 # Import the blacklist function
-from commands.ticket_blacklist import is_user_blacklisted
+from commands.ticket_commands.ticket_blacklist import is_user_blacklisted
 
 def setup(bot):
 
