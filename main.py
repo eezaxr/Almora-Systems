@@ -6,6 +6,7 @@ from commands.ticket_add import setup as setup_ticket_add
 from commands.ticket_remove import setup as setup_ticket_remove
 from commands.ticket_panel import setup as setup_ticket_panel
 from commands.ticket_claim import setup as setup_ticket_claim
+from commands.ticket_blacklist import setup as setup_ticket_blacklist  # Add this import
 from commands.patience import setup as setup_patience
 from commands.reaction_panel import setup as setup_reaction_panel
 from commands.shift_start import setup as setup_shift_start
@@ -90,6 +91,7 @@ setup_ticket_add(bot)
 setup_ticket_remove(bot)
 setup_ticket_panel(bot)
 setup_ticket_claim(bot)
+setup_ticket_blacklist(bot)  # Add this line
 setup_patience(bot)
 setup_reaction_panel(bot)
 setup_shift_start(bot)
