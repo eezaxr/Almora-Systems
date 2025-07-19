@@ -1,4 +1,3 @@
-
 import discord
 import config
 
@@ -47,8 +46,8 @@ async def create_ticket_channel(guild, user, reason):
         return None
 
 def is_ticket_channel(channel):
-    """Check if a channel is a ticket channel"""
-    return channel.name.startswith("ticket-")
+    """Check if a channel is a ticket channel by checking if it's in the ticket category"""
+    return channel.category_id == config.TICKET_CATEGORY_ID
 
 def has_staff_permissions(member):
     """Check if a member has staff permissions"""
