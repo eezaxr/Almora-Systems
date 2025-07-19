@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import config
-from commands.training_start import active_trainings
+from commands.training_commands.training_start import active_trainings
 from datetime import datetime, timedelta
 
 async def training_end_command(interaction: discord.Interaction, training_id: str):

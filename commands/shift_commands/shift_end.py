@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import config
-from commands.shift_start import active_shifts
+from commands.shift_commands.shift_start import active_shifts
 
 def setup(bot):
     @bot.tree.command(name="shift-end", description="End an active shift")
