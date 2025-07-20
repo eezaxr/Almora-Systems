@@ -24,6 +24,21 @@ from commands.training_commands.training_end import setup as setup_training_end
 # Reaction commands imports
 from commands.reaction_commands.reaction_panel import setup as setup_reaction_panel
 
+# Moderation commands imports
+from commands.moderation_commands.kick import setup as setup_kick
+from commands.moderation_commands.ban import setup as setup_ban
+from commands.moderation_commands.unban import setup as setup_unban
+from commands.moderation_commands.warn import setup as setup_warn
+from commands.moderation_commands.unwarn import setup as setup_unwarn
+from commands.moderation_commands.mute import setup as setup_mute
+from commands.moderation_commands.unmute import setup as setup_unmute
+from commands.moderation_commands.lockdown import setup as setup_lockdown
+from commands.moderation_commands.note import setup as setup_note
+from commands.moderation_commands.notes import setup as setup_notes
+from commands.moderation_commands.warnings import setup as setup_warnings
+from commands.moderation_commands.modlogs import setup as setup_modlogs
+from commands.moderation_commands.members import setup as setup_members
+
 # Import views and utilities
 from commands.ticket_commands.ticket_panel import TicketPanelView
 from utils.reaction_panel import GeneralRolesView, PronounsRolesView
@@ -120,6 +135,21 @@ setup_reaction_panel(bot)
 # Setup invite tracking
 setup_invite_tracking(bot)
 setup_invite_commands(bot)
+
+# Setup moderation commands
+setup_kick(bot)
+setup_ban(bot)
+setup_unban(bot)
+setup_warn(bot)
+setup_unwarn(bot)
+setup_mute(bot)
+setup_unmute(bot)
+setup_lockdown(bot)
+setup_note(bot)
+setup_notes(bot)
+setup_warnings(bot)
+setup_modlogs(bot)
+setup_members(bot)
 
 if __name__ == "__main__":
     bot.run(config.DISCORD_TOKEN)
