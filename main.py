@@ -43,6 +43,7 @@ from commands.moderation_commands.members import setup as setup_members
 from commands.ticket_commands.ticket_panel import TicketPanelView
 from utils.reaction_panel import GeneralRolesView, PronounsRolesView
 from utils.invite_utils import setup_invite_tracking, handle_member_join, cache_invites_for_guild, setup_invite_commands
+from utils.group_counter import setup_group_monitoring
 import asyncio
 
 intents = discord.Intents.default()
@@ -75,6 +76,22 @@ async def on_ready():
     for guild in bot.guilds:
         await cache_invites_for_guild(guild)
     print('Invite tracking initialized')
+    
+    # Setup Roblox group monitoring
+    # Replace these with your actual values
+    if hasattr(config, 'ROBLOX_GROUP_ID') and hasattr(config, 'GROUP_COUNTER_CHANNEL_ID'):
+        try:
+            group_counter = await setup_group_monitoring(
+                bot=bot,
+                group_id=config.ROBLOX_GROUP_ID,
+                channel_id=config.GROUP_COUNTER_CHANNEL_ID,
+                check_interval=120  # Check every 2 minutes
+            )
+            print('Roblox group monitoring started')
+        except Exception as e:
+            print(f'Failed to start group monitoring: {e}')
+    else:
+        print('Roblox group monitoring not configured - add ROBLOX_GROUP_ID and GROUP_COUNTER_CHANNEL_ID to config.py')
     
     # Sync slash commands - this reloads/updates all slash commands
     try:
