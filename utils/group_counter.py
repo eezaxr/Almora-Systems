@@ -173,9 +173,9 @@ class RobloxGroupCounter:
             members_until_milestone = next_milestone - current_count
             
             if members_gained == 1:
-                message = f"🎊 Someone just joined **{group_name}**! We now have **{current_count:,}** members (**{members_until_milestone:,}** until **{next_milestone:,}**)"
+                message = f"🎊 We now have **{current_count:,}** members, **{members_until_milestone:,}** more until **{next_milestone:,}**"
             else:
-                message = f"🎊 **{members_gained}** new members joined **{group_name}**! We now have **{current_count:,}** members (**{members_until_milestone:,}** until **{next_milestone:,}**)"
+                message = f"🎊 **{members_gained}** new members joined! We now have **{current_count:,}** members, **{members_until_milestone:,}** more until **{next_milestone:,}**"
             
             await channel.send(message)
             logger.info(f"Sent join notification: +{members_gained} members (now {current_count})")
