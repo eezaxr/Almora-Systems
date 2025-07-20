@@ -98,8 +98,12 @@ async def on_command_error(ctx, error):
         await ctx.send("Command not found.")
     elif isinstance(error, commands.MissingPermissions):
         await ctx.send("You don't have permission to use this command.")
+    elif isinstance(error, commands.CommandRegistrationError):
+        print(f"Command registration error: {error}")
+        await ctx.send("There was an issue with command registration. Please contact an administrator.")
     else:
         await ctx.send(f"An error occurred: {error}")
+        print(f"Unhandled error: {error}")
 
 @bot.command(name="a_say")
 async def say(ctx, *, message: str):
@@ -110,46 +114,60 @@ async def say(ctx, *, message: str):
         return
     await ctx.send(message)
 
+# Function to safely setup commands with error handling
+def safe_setup(setup_func, name):
+    """Safely setup a command with error handling"""
+    try:
+        setup_func(bot)
+        print(f"✓ {name} commands loaded successfully")
+    except Exception as e:
+        print(f"✗ Failed to load {name} commands: {e}")
+
+# Setup all commands with error handling
+print("Loading commands...")
+
 # Setup ticket commands
-setup_ticket_close(bot)
-setup_ticket_add(bot)
-setup_ticket_remove(bot)
-setup_ticket_panel(bot)
-setup_ticket_claim(bot)
-setup_ticket_blacklist(bot)
-setup_patience(bot)
+safe_setup(setup_ticket_close, "ticket_close")
+safe_setup(setup_ticket_add, "ticket_add")
+safe_setup(setup_ticket_remove, "ticket_remove")
+safe_setup(setup_ticket_panel, "ticket_panel")
+safe_setup(setup_ticket_claim, "ticket_claim")
+safe_setup(setup_ticket_blacklist, "ticket_blacklist")
+safe_setup(setup_patience, "patience")
 
 # Setup shift commands
-setup_shift_start(bot)
-setup_shift_cancel(bot)
-setup_shift_end(bot)
+safe_setup(setup_shift_start, "shift_start")
+safe_setup(setup_shift_cancel, "shift_cancel")
+safe_setup(setup_shift_end, "shift_end")
 
 # Setup training commands
-setup_training_start(bot)
-setup_training_cancel(bot)
-setup_training_end(bot)
+safe_setup(setup_training_start, "training_start")
+safe_setup(setup_training_cancel, "training_cancel")
+safe_setup(setup_training_end, "training_end")
 
 # Setup reaction commands
-setup_reaction_panel(bot)
+safe_setup(setup_reaction_panel, "reaction_panel")
 
 # Setup invite tracking
-setup_invite_tracking(bot)
-setup_invite_commands(bot)
+safe_setup(setup_invite_tracking, "invite_tracking")
+safe_setup(setup_invite_commands, "invite_commands")
 
 # Setup moderation commands
-setup_kick(bot)
-setup_ban(bot)
-setup_unban(bot)
-setup_warn(bot)
-setup_unwarn(bot)
-setup_mute(bot)
-setup_unmute(bot)
-setup_lockdown(bot)
-setup_note(bot)
-setup_notes(bot)
-setup_warnings(bot)
-setup_modlogs(bot)
-setup_members(bot)
+safe_setup(setup_kick, "kick")
+safe_setup(setup_ban, "ban")
+safe_setup(setup_unban, "unban")
+safe_setup(setup_warn, "warn")
+safe_setup(setup_unwarn, "unwarn")
+safe_setup(setup_mute, "mute")
+safe_setup(setup_unmute, "unmute")  # This is where the duplicate command error occurs
+safe_setup(setup_lockdown, "lockdown")
+safe_setup(setup_note, "note")
+safe_setup(setup_notes, "notes")
+safe_setup(setup_warnings, "warnings")
+safe_setup(setup_modlogs, "modlogs")
+safe_setup(setup_members, "members")
+
+print("Command loading complete!")
 
 if __name__ == "__main__":
     bot.run(config.DISCORD_TOKEN)
