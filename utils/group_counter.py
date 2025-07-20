@@ -2,18 +2,18 @@ import aiohttp
 import asyncio
 import discord
 from discord.ext import commands
-from typing import Optional, Dict, Any, Union
+from typing import Optional, Dict, Any
 import json
 import os
 from datetime import datetime
 
 class RobloxGroupCounter:
-    def __init__(self, bot: Union[commands.Bot, discord.Bot], group_id: int, channel_id: int, check_interval: int = 60):
+    def __init__(self, bot: commands.Bot, group_id: int, channel_id: int, check_interval: int = 60):
         """
         Initialize the Roblox Group Counter
         
         Args:
-            bot: Discord bot instance
+            bot: Discord bot instance (commands.Bot)
             group_id: Roblox group ID to monitor
             channel_id: Discord channel ID to send notifications
             check_interval: How often to check for new members (seconds)
@@ -209,12 +209,12 @@ class RobloxGroupCounter:
 
 
 # Convenience function to set up group monitoring
-async def setup_group_monitoring(bot: Union[commands.Bot, discord.Bot], group_id: int, channel_id: int, check_interval: int = 60) -> RobloxGroupCounter:
+async def setup_group_monitoring(bot: commands.Bot, group_id: int, channel_id: int, check_interval: int = 60) -> RobloxGroupCounter:
     """
     Set up and start group monitoring
     
     Args:
-        bot: Discord bot instance
+        bot: Discord bot instance (commands.Bot)
         group_id: Roblox group ID to monitor
         channel_id: Discord channel ID to send notifications
         check_interval: How often to check for new members (seconds)
