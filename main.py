@@ -40,7 +40,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user} has connected to Discord!')
+    print(f'{bot.user} has connected to Discord')
     print(f'Bot is ready in {len(bot.guilds)} guilds')
     
     # Add persistent views
@@ -53,13 +53,13 @@ async def on_ready():
     await asyncio.sleep(5)
     await bot.change_presence(activity=discord.CustomActivity(name="Answering your tickets"))
     
-    print('Persistent ticket panel view loaded!')
-    print('Persistent reaction role view loaded!')
+    print('Persistent ticket panel view loaded')
+    print('Persistent reaction role view loaded')
     
     # Cache invites for all guilds
     for guild in bot.guilds:
         await cache_invites_for_guild(guild)
-    print('Invite tracking initialized!')
+    print('Invite tracking initialized')
     
     # Sync slash commands - this reloads/updates all slash commands
     try:
@@ -80,7 +80,7 @@ async def on_member_join(member):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send("Command not found! Use `!help` to see available commands.")
+        await ctx.send("Command not found.")
     elif isinstance(error, commands.MissingPermissions):
         await ctx.send("You don't have permission to use this command.")
     else:
