@@ -56,7 +56,7 @@ class InviteTracker:
             print(f"Error finding used invite: {e}")
             return None
     
-    async def send_invite_notification(self, member: discord.Member, inviter_id: int):
+    async def send_invite_notification(self, member: discord.Member, inviter_id: Optional[int]):
         """Send the invite notification"""
         try:
             channel = self.bot.get_channel(config.INVITE_CHANNEL_ID)
@@ -64,15 +64,19 @@ class InviteTracker:
                 print(f"Could not find invite channel with ID {config.INVITE_CHANNEL_ID}")
                 return
             
-            inviter = member.guild.get_member(inviter_id)
-            if not inviter:
-                print("Could not find inviter")
-                return
-            
-            total_invites = self.user_invite_counts.get(member.guild.id, {}).get(inviter_id, 0)
-            
-            # Create the notification message in the exact format requested
-            message = f"{member.mention} has been invited by {inviter.mention} and has now {total_invites} invites."
+            if inviter_id:
+                # Found who invited the user
+                inviter = member.guild.get_member(inviter_id)
+                if not inviter:
+                    print("Could not find inviter")
+                    # Still send a message that we couldn't determine who invited them
+                    message = f"I could not find out how {member.mention} joined the server."
+                else:
+                    total_invites = self.user_invite_counts.get(member.guild.id, {}).get(inviter_id, 0)
+                    message = f"{member.mention} has been invited by {inviter.mention} and has now {total_invites} invites."
+            else:
+                # Could not determine who invited the user
+                message = f"I could not find out how {member.mention} joined the server."
             
             await channel.send(message)
             print(f"Sent invite notification for {member.display_name}")
@@ -102,9 +106,10 @@ async def handle_member_join(member: discord.Member):
         # Find who invited this member
         inviter_id = await tracker.find_used_invite(member.guild)
         
-        if inviter_id:
-            await tracker.send_invite_notification(member, inviter_id)
-        else:
+        # Always send a notification, whether we found the inviter or not
+        await tracker.send_invite_notification(member, inviter_id)
+        
+        if not inviter_id:
             print(f"Could not determine who invited {member.display_name}")
     
     except Exception as e:
