@@ -173,7 +173,7 @@ class RobloxGroupCounter:
             members_until_milestone = next_milestone - current_count
             
             if members_gained == 1:
-                message = f"🎊 We have reached  **{current_count:,}** members, **only {members_until_milestone:,}** more until **{next_milestone:,}**"
+                message = f"🎊 Almora Retail has reached **{current_count:,}** members, **only {members_until_milestone:,}** more until **{next_milestone:,}**"
             else:
                 message = f"🎊 **{members_gained}** new members joined! We now have **{current_count:,}** members, **{members_until_milestone:,}** more until **{next_milestone:,}**"
             
